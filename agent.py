@@ -14,7 +14,6 @@ class Agent:
         self.episode = [] 
         self.k = 1
 
-
     def select_action(self, state): 
         if self.mode == 'q_learning':
             eps_q = 0.01 
@@ -22,6 +21,9 @@ class Agent:
                 return np.argmax(self.Q[state])  
             else:  
                 return (random.choice(np.arange(self.n_actions))) 
+'''
+Q Learning
+'''
 
         elif self.mode == 'mc_control': 
             eps_m = 1/self.k
@@ -37,13 +39,11 @@ class Agent:
                 return (random.choice(np.arange(self.n_actions))) 
 
 
-
-
     def step(self, state, action, reward, next_state, done): 
        if self.mode == 'q_learning': 
             new_value_q_learning = self.Q_learning(state, action, reward, next_state, done) 
             self.Q[state][action] = new_value_q_learning 
-       elif self.mode == 'mc_control': 
+       elif self.mode == 'mc_control': # Monte Carlo는 모든 에피소드가 끝나고 업데이트 
            if not done: 
                self.episode.append((state, action, reward)) 
            else:  
@@ -51,7 +51,9 @@ class Agent:
                self.Q = a
                self.episode = []
                self.k += 0.001
-
+'''
+Q Learning
+'''
 
     def Q_learning(self, state, action, reward, next_state, done): 
         gamma = 0.90 
